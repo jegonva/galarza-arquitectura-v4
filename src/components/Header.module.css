@@ -1,0 +1,95 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Logo left, Nav right */
+  padding: 1.5rem 2.5rem; /* Increased height as requested for logo */
+  z-index: 1000;
+  background: transparent;
+  transition: all 0.4s ease;
+  box-sizing: border-box; /* CRITICAL */
+}
+
+.header.scrolled {
+  padding: 1rem 2.5rem;
+  background: rgba(250, 248, 244, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.logoLink:hover {
+  transform: scale(1.02);
+}
+
+.mainLogo {
+  height: 35px; /* Premium height for visibility */
+  width: auto;
+  object-fit: contain;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--clr-text-primary);
+  font-family: var(--font-dm-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.navLink:hover {
+  opacity: 1;
+  color: var(--clr-accent);
+}
+
+.contactBtn {
+  background: var(--clr-text-primary) !important;
+  color: #fff !important;
+  padding: 0.7rem 1.5rem !important; /* Slightly larger for the new header height */
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem !important;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.contactBtn:hover {
+  background: var(--clr-accent) !important;
+  color: #000 !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  .nav {
+    display: none; /* Mobile menu logic would go here if needed */
+  }
+}

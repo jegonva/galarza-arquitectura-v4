@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.next/
+out/
+dist/
+
+# Misc
+.DS_Store
+*.pem
+.env
+.env*.local
+.vercel
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Large media assets (host on CDN, not in repo)
+public/images/

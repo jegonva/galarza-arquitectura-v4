@@ -1,0 +1,87 @@
+/* --- MODERN DESIGN SYSTEM V4 --- */
+:root {
+  --clr-accent: #B8962E;
+  --clr-text-primary: #1a1a1a;
+  --clr-text-secondary: #4a4a4a;
+  --clr-bg-main: #FAF8F4;
+  --clr-glass: rgba(255, 255, 255, 0.7);
+  
+  --spacing-lg: 120px;
+  --spacing-md: 60px;
+  
+  --text-h1: 8rem;
+  --text-h2: 4.5rem;
+  --text-body: 1.1rem;
+
+  --radius-pill: 100px;
+  --radius-soft: 40px;
+  --radius-organic: 60px;
+}
+
+/* --- OVERRIDES TO ALLOW MESH GRADIENT VISIBILITY --- */
+html, body {
+  background: transparent !important;
+  color: var(--clr-text-primary);
+  cursor: none; /* We use a custom cursor */
+}
+
+/* --- TYPOGRAPHY --- */
+.display-font {
+  font-family: var(--font-cormorant);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.body-font {
+  font-family: var(--font-dm-sans);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.accent-text {
+  color: var(--clr-accent);
+}
+
+/* --- UTILS --- */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section-padding {
+  padding: var(--spacing-lg) 0;
+}
+
+.glass-card {
+  background: var(--clr-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --text-h1: 4.5rem;
+    --text-h2: 2.8rem;
+  }
+}
+
+/* Masking text for animations */
+.text-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* Re-adding the liquid logo class for Black Logo */
+.liquid-logo {
+  height: 45px;
+  width: auto;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.05));
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.liquid-logo:hover {
+  filter: drop-shadow(0 0 10px rgba(184, 150, 46, 0.2)) brightness(1.1);
+  transform: scale(1.02);
+}
