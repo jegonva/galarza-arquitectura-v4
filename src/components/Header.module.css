@@ -153,9 +153,18 @@
   letter-spacing: 2px;
 }
 
+@media (min-width: 1025px) and (max-width: 1300px) {
+  .headerContainer {
+    padding: 1rem 1.5rem;
+  }
+  .desktopNav {
+    gap: 0.5rem; /* Menor espacio para que quepa en iPad Horizontal */
+  }
+}
+
 @media (max-width: 1024px) {
   .headerContainer {
-    padding: 1rem 2.2rem; /* Aumentado de 1.5rem para evitar que se pegue al borde */
+    padding: 1rem 1.25rem; /* Ajustado para que el icono no esté muy "metido" */
   }
   .desktopNav {
     display: none;

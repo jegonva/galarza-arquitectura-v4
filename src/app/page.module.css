@@ -235,9 +235,21 @@
 }
 
 @media (max-width: 600px) {
+  .hero {
+    min-height: 80vh; /* Reducido para evitar exceso de espacio vertical en teléfonos */
+    display: flex;
+    align-items: center;
+    padding-top: 5rem;
+  }
+  .logoWatermark {
+    top: 15vh;
+    opacity: 0.08; /* Más visible en móvil */
+    animation: none; /* Quitamos animación pesada en móvil */
+    transform: scale(0.8);
+  }
   .heroHeadline {
      max-width: 100%;
-     font-size: clamp(2.2rem, 10vw, 3.5rem); /* Reducción para evitar desbordamientos en móviles */
+     font-size: clamp(2.1rem, 10vw, 3.2rem); 
      line-height: 1.1;
   }
   .glassBox {
