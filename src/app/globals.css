@@ -6,12 +6,12 @@
   --clr-bg-main: #FAF8F4;
   --clr-glass: rgba(255, 255, 255, 0.7);
   
-  --spacing-lg: 120px;
-  --spacing-md: 60px;
+  --spacing-lg: clamp(60px, 10vw, 120px);
+  --spacing-md: clamp(30px, 5vw, 60px);
   
-  --text-h1: 8rem;
-  --text-h2: 4.5rem;
-  --text-body: 1.1rem;
+  --text-h1: clamp(3rem, 8vw, 8rem);
+  --text-h2: clamp(2.2rem, 5vw, 4.5rem);
+  --text-body: clamp(1rem, 1.1vw, 1.1rem);
 
   --radius-pill: 100px;
   --radius-soft: 40px;
@@ -22,7 +22,13 @@
 html, body {
   background: transparent !important;
   color: var(--clr-text-primary);
-  cursor: none; /* We use a custom cursor */
+  cursor: none; /* We handle this per-device in the component */
+}
+
+/* Ensure no horizontal overflow */
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* --- TYPOGRAPHY --- */
@@ -46,7 +52,7 @@ html, body {
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 clamp(1.5rem, 5vw, 40px);
 }
 
 .section-padding {
@@ -60,10 +66,10 @@ html, body {
   border-radius: 24px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   :root {
-    --text-h1: 4.5rem;
-    --text-h2: 2.8rem;
+    --radius-soft: 24px;
+    --radius-organic: 30px;
   }
 }
 

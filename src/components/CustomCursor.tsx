@@ -13,6 +13,15 @@ export default function CustomCursor() {
 
     if (!cursor || !follower) return;
 
+    // Detect touch device
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouchDevice) {
+      cursor.style.display = "none";
+      follower.style.display = "none";
+      document.body.style.cursor = "auto";
+      return;
+    }
+
     const onMouseMove = (e: MouseEvent) => {
       gsap.to(cursor, {
         x: e.clientX,

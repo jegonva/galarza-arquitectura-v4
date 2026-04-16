@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import { MoveLeft } from "lucide-react";
+import styles from "../servicios.module.css";
 import ProjectFolder from "@/components/ProjectFolder";
 
 const PROJECTS_FV = [
@@ -50,28 +51,34 @@ export default function FotografiaPage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.from(".photo-card", {
-      y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: "power4.out"
-    });
+    const ctx = gsap.context(() => {
+      gsap.from(".photo-card", {
+        y: 50, opacity: 0, duration: 1, stagger: 0.15, ease: "power4.out"
+      });
+    }, containerRef);
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div style={{ background: "transparent", minHeight: "100vh", color: "var(--clr-text-primary)" }}>
+    <div className={styles.pageWrapper} ref={containerRef}>
       
-      {/* 1. HERO */}
-      <section style={{ height: "60vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 4rem", position: "relative" }}>
-          <Link href="/" style={{ position: "absolute", top: "2rem", left: "2rem", zIndex: 10, background: "rgba(12,12,11,0.05)", width: "50px", height: "50px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--clr-text-primary)", border: "1px solid rgba(0,0,0,0.1)", textDecoration: "none" }}>
-            <MoveLeft size={20} />
-          </Link>
-          <h1 className="display-font" style={{ fontSize: "var(--text-h1)", lineHeight: 1 }}>
-             <span className="accent-text">MEDIA</span><br/>STUDIO.
-          </h1>
-          <p className="body-font" style={{ fontSize: "1.2rem", marginTop: "2rem", opacity: 0.4, letterSpacing: "2px", textTransform: "uppercase" }}>Producción Visual · Dron · Arquitectura</p>
+      <Link href="/" className={styles.backBtn}>
+        <MoveLeft size={20} />
+      </Link>
+
+      <section className={styles.hero}>
+        <div className={styles.heroOverlay} style={{ background: "linear-gradient(to top, var(--clr-bg-main) 0%, transparent 100%)" }} />
+        <div className={styles.heroContent}>
+           <h1 className={`${styles.heroHeadline} display-font`}>
+              <span className={styles.textMask}><span className="accent-text">MEDIA</span></span><br/>
+              <span className={styles.textMask}>STUDIO.</span>
+           </h1>
+           <p className={`${styles.heroSub} body-font`}>Producción Visual · Dron · Arquitectura</p>
+        </div>
       </section>
 
-      {/* 2. PROJECTS */}
-      <section ref={containerRef} style={{ padding: "0 4rem 10rem 4rem" }}>
-         <div style={{ display: "flex", flexDirection: "column" }}>
+      <section className={styles.section}>
+         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {PROJECTS_FV.map(proj => (
               <div key={proj.id} className="photo-card">
                  <ProjectFolder project={proj} />

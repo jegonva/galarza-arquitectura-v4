@@ -34,35 +34,53 @@ export default function NosotrosPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const sections = gsap.utils.toArray(".horizontal-panel");
+      const isMobile = window.innerWidth <= 900;
       
-      // Horizontal GSAP Scroll Pin
-      gsap.to(sections, {
-        xPercent: -100 * (sections.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (sections.length - 1),
-          start: "top top",
-          end: () => "+=" + (scrollWrapperRef.current?.offsetWidth || 2000)
-        }
-      });
-      
-      // Text reveals within panels
-      sections.forEach((sec: any) => {
-        gsap.fromTo(sec.querySelector(".anim-txt"), 
-           { y: 50, opacity: 0 },
-           {
-             y: 0, opacity: 1, duration: 1,
-             scrollTrigger: {
-               trigger: sec,
-               start: "left center",
+      if (!isMobile) {
+        const sections = gsap.utils.toArray(".horizontal-panel");
+        
+        // Horizontal GSAP Scroll Pin
+        gsap.to(sections, {
+          xPercent: -100 * (sections.length - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            pin: true,
+            scrub: 1,
+            snap: 1 / (sections.length - 1),
+            start: "top top",
+            end: () => "+=" + (scrollWrapperRef.current?.offsetWidth || 2000)
+          }
+        });
+        
+        // Text reveals within panels (Desktop)
+        sections.forEach((sec: any) => {
+          gsap.fromTo(sec.querySelector(".anim-txt"), 
+             { y: 50, opacity: 0 },
+             {
+               y: 0, opacity: 1, duration: 1,
+               scrollTrigger: {
+                 trigger: sec,
+                 start: "left center",
+               }
              }
-           }
-        );
-      });
+          );
+        });
+      } else {
+        // Simple Fade-up for mobile (Vertical Stack)
+        gsap.utils.toArray(".anim-txt").forEach((entry: any) => {
+           gsap.fromTo(entry, 
+             { y: 30, opacity: 0 },
+             {
+               y: 0, opacity: 1, duration: 0.8,
+               scrollTrigger: {
+                 trigger: entry,
+                 start: "top 85%",
+               }
+             }
+           );
+        });
+      }
 
     }, containerRef);
     return () => ctx.revert();
@@ -72,41 +90,58 @@ export default function NosotrosPage() {
     <div style={{ background: "transparent", color: "var(--clr-text-primary)", overflowX: "hidden" }}>
       
       <Link href="/" style={{
-          position: "fixed", top: "2rem", left: "2rem", zIndex: 100,
-          background: "rgba(12,12,11,0.05)", width: "50px", height: "50px",
+          position: "fixed", top: "1.5rem", left: "1.5rem", zIndex: 1100,
+          background: "var(--clr-glass)", width: "45px", height: "45px",
           borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
           color: "var(--clr-text-primary)", border: "1px solid rgba(0,0,0,0.1)", textDecoration: "none",
-          backdropFilter: "blur(10px)"
+          backdropFilter: "blur(10px)", boxShadow: "0 10px 20px rgba(0,0,0,0.05)"
       }}>
         <MoveLeft size={20} />
       </Link>
 
-      <section style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 4rem" }}>
-        <h1 className="display-font" style={{ fontSize: "var(--text-h1)", maxWidth: "1200px", lineHeight: 0.9 }}>
+      <section style={{ 
+        minHeight: "100vh", 
+        display: "flex", 
+        flexDirection: "column", 
+        justifyContent: "center", 
+        padding: "0 clamp(1.5rem, 5vw, 4rem)" 
+      }}>
+        <h1 className="display-font" style={{ 
+          fontSize: "var(--text-h1)", 
+          maxWidth: "1200px", 
+          lineHeight: 0.9,
+          marginTop: "4rem"
+        }}>
           Ingeniería continua para un <span style={{color: "var(--clr-accent)"}}>patrimonio</span> impecable.
         </h1>
-        <p className="body-font" style={{ fontSize: "1.2rem", marginTop: "2rem", opacity: 0.6, letterSpacing: "1px", textTransform: "uppercase" }}>[ Desliza para explorar nuestro ADN ]</p>
+        <p className="body-font" style={{ 
+          fontSize: "clamp(0.8rem, 1vw, 1.2rem)", 
+          marginTop: "2rem", 
+          opacity: 0.6, 
+          letterSpacing: "1px", 
+          textTransform: "uppercase" 
+        }}>[ Desliza para explorar nuestro ADN ]</p>
       </section>
 
-      {/* HORIZONTAL SCROLL CONTAINER */}
-      <div ref={containerRef} style={{ height: "100vh", overflow: "hidden", display: "flex", flexWrap: "nowrap" }}>
-         <div ref={scrollWrapperRef} style={{ display: "flex", width: "400vw", height: "100%" }}>
+      {/* HORIZONTAL/VERTICAL CONTAINER */}
+      <div ref={containerRef} className="nosotros-content-wrapper">
+         <div ref={scrollWrapperRef} className="nosotros-scroll-inner">
             
             {/* Panel 0: The Intro to Scroll */}
-            <div className="horizontal-panel" style={{ width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", color: "var(--clr-text-primary)" }}>
-               <h2 className="display-font anim-txt" style={{ fontSize: "5rem", textAlign: "center" }}>Ecosistema<br/>Galarza.</h2>
+            <div className="horizontal-panel intro-panel">
+               <h2 className="display-font anim-txt" style={{ fontSize: "var(--text-h1)", textAlign: "center" }}>Ecosistema<br/>Galarza.</h2>
             </div>
 
             {/* Panels 1-3 */}
             {chapters.map((cap, i) => (
-              <div key={i} className="horizontal-panel" style={{ width: "100vw", height: "100vh", display: "flex", alignItems: "center", padding: "0 8rem", position: "relative" }}>
-                  <div style={{ flex: 1, zIndex: 2 }}>
-                     <h3 className="body-font accent-text anim-txt" style={{ textTransform: "uppercase", letterSpacing: "3px", marginBottom: "1.5rem", fontWeight: 700 }}>Visión 0{i + 1}</h3>
-                     <h2 className="display-font anim-txt" style={{ fontSize: "var(--text-h2)", marginBottom: "2rem", maxWidth: "600px" }}>{cap.title}</h2>
-                     <p className="body-font anim-txt" style={{ fontSize: "1.3rem", maxWidth: "500px", opacity: 0.8, lineHeight: 1.6 }}>{cap.text}</p>
+              <div key={i} className="horizontal-panel content-panel">
+                  <div className="panel-text-box">
+                     <h3 className="body-font accent-text anim-txt" style={{ textTransform: "uppercase", letterSpacing: "3px", marginBottom: "1rem", fontWeight: 700, fontSize: "0.9rem" }}>Visión 0{i + 1}</h3>
+                     <h2 className="display-font anim-txt" style={{ fontSize: "var(--text-h2)", marginBottom: "1.5rem", maxWidth: "600px" }}>{cap.title}</h2>
+                     <p className="body-font anim-txt" style={{ fontSize: "clamp(1rem, 1.2vw, 1.3rem)", maxWidth: "500px", opacity: 0.8, lineHeight: 1.6 }}>{cap.text}</p>
                   </div>
-                  <div style={{ flex: 1, height: "70vh", borderRadius: "24px", overflow: "hidden", position: "relative", boxShadow: "0 40px 100px rgba(0,0,0,0.2)" }}>
-                     {cap.img && <img src={cap.img} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                  <div className="panel-image-box">
+                     {cap.img && <img src={cap.img} alt={cap.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.4))" }} />
                   </div>
               </div>
@@ -115,6 +150,67 @@ export default function NosotrosPage() {
          </div>
       </div>
       
+      <style jsx>{`
+        .nosotros-content-wrapper {
+          overflow: hidden;
+        }
+        .nosotros-scroll-inner {
+          display: flex;
+          flex-wrap: nowrap;
+          width: 400vw;
+          height: 100vh;
+        }
+        .horizontal-panel {
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          padding: 0 8rem;
+          position: relative;
+        }
+        .intro-panel {
+          justify-content: center;
+        }
+        .panel-text-box {
+          flex: 1;
+          z-index: 2;
+        }
+        .panel-image-box {
+          flex: 1;
+          height: 70vh;
+          border-radius: 24px;
+          overflow: hidden;
+          position: relative;
+          box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 900px) {
+          .nosotros-scroll-inner {
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+          }
+          .horizontal-panel {
+            width: 100%;
+            height: auto;
+            flex-direction: column;
+            padding: 4rem 1.5rem;
+            min-height: 80vh;
+            justify-content: center;
+          }
+          .panel-text-box {
+             order: 2;
+             margin-top: 2rem;
+             width: 100%;
+          }
+          .panel-image-box {
+             order: 1;
+             width: 100%;
+             height: 40vh;
+             border-radius: 16px;
+          }
+        }
+      `}</style>
     </div>
   );
 }

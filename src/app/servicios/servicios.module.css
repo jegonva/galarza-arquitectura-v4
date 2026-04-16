@@ -2,19 +2,20 @@
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: rgba(250, 248, 244, 0.4);
+  background-color: var(--clr-bg-main);
   color: var(--clr-text-primary);
   overflow: hidden;
-  backdrop-filter: blur(5px);
+  position: relative;
+  z-index: 1; /* Sit above MeshGradient */
 }
 
 /* Parallax Hero */
 .hero {
   position: relative;
-  height: 90vh;
+  height: clamp(60vh, 80vh, 90vh);
   display: flex;
   align-items: flex-end;
-  padding: 4rem;
+  padding: clamp(1.5rem, 5vw, 4rem);
   overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
@@ -37,7 +38,7 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(250, 248, 244, 0.6) 0%, rgba(250, 248, 244, 0) 100%);
+  background: linear-gradient(to top, rgba(250, 248, 244, 0.8) 0%, rgba(250, 248, 244, 0.2) 50%, rgba(250, 248, 244, 0) 100%);
   z-index: 2;
 }
 
@@ -48,15 +49,14 @@
   max-width: 1400px;
   margin: 0 auto;
   color: var(--clr-text-primary);
-  
 }
 
 .heroHeadline {
   font-size: var(--text-h1);
-  line-height: 1.1; /* Increased line-height */
+  line-height: 1;
   text-transform: uppercase;
-  margin-bottom: 2rem;
-  overflow: visible; /* Removed hidden to allow multi-line titles */
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  overflow: visible;
 }
 
 .heroHeadline span {
@@ -65,13 +65,13 @@
 }
 
 .heroSub {
-  font-size: var(--text-p);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   max-width: 600px;
   opacity: 0;
 }
 
 .section {
-  padding: var(--space-xxl) 4rem;
+  padding: var(--spacing-lg) clamp(1.5rem, 5vw, 4rem);
 }
 
 /* Text Masking / Split Text effects */
@@ -88,34 +88,36 @@
 .infoGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
+  gap: clamp(2rem, 5vw, 4rem);
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .infoTitle {
   font-size: var(--text-h2);
-  margin-bottom: var(--space-md);
+  margin-bottom: 2rem;
 }
 
 .infoText {
-  font-size: var(--text-p);
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
   color: var(--clr-text-secondary);
+  line-height: 1.6;
 }
 
 /* Portfolio Gallery with Liquid Glass */
 .gallery {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-  margin-top: var(--space-xl);
+  gap: clamp(0.5rem, 1vw, 1rem);
+  margin-top: clamp(2rem, 5vw, 4rem);
 }
 
 .galleryItem {
   position: relative;
-  height: 60vh;
+  height: clamp(30vh, 50vh, 60vh);
   border-radius: var(--radius-soft);
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .galleryItem img {
@@ -139,19 +141,33 @@
   transform: translate(-50%, -40%);
   opacity: 0;
   
-  background: rgba(250, 248, 244, 0.2);
+  background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(250, 248, 244, 0.4);
-  color: var(--clr-background);
-  padding: 1.5rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--clr-text-primary);
+  padding: 1rem 2rem;
   border-radius: var(--radius-pill);
   
   transition: all 0.5s ease;
   font-family: var(--font-dm-sans);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+  .galleryItem:nth-child(even),
+  .galleryItem:nth-child(odd) {
+    grid-column: span 12;
+  }
 }
 
 .galleryItem:hover img {
@@ -167,15 +183,15 @@
 /* Smooth Return Button */
 .backBtn {
   position: fixed;
-  top: 2rem;
-  left: 2rem;
-  z-index: 100;
-  background: rgba(250, 248, 244, 0.1);
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1050;
+  background: var(--clr-glass);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(250,248,244,0.2);
+  border: 1px solid rgba(0,0,0,0.1);
   color: var(--clr-text-primary);
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -183,12 +199,11 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s ease;
-  /* mix-blend-mode removed for cleaner look on light theme */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
 .backBtn:hover {
   background: var(--clr-accent);
   border-color: var(--clr-accent);
   color: #fff;
-  mix-blend-mode: normal;
 }

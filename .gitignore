@@ -22,3 +22,5 @@ dist/
 
 # Large media assets (host on CDN, not in repo)
 public/images/
+
+.vercel
