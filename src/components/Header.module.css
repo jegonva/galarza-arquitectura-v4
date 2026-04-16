@@ -155,12 +155,22 @@
 
 @media (max-width: 1024px) {
   .headerContainer {
-    padding: 1rem 1.5rem;
+    padding: 1rem 2.2rem; /* Aumentado de 1.5rem para evitar que se pegue al borde */
   }
   .desktopNav {
     display: none;
   }
   .mobileToggle {
     display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    font-size: 1.1rem; /* Pequeño ajuste para ganar espacio en teléfonos chicos */
+    letter-spacing: 0.15em;
+  }
+  .headerContainer {
+    padding: 1rem 1.8rem;
   }
 }

@@ -237,11 +237,14 @@
 @media (max-width: 600px) {
   .heroHeadline {
      max-width: 100%;
+     font-size: clamp(2.2rem, 10vw, 3.5rem); /* Reducción para evitar desbordamientos en móviles */
+     line-height: 1.1;
   }
   .glassBox {
     padding: 1.5rem;
   }
   .pvs {
     border-radius: 20px;
+    padding: 3rem 1.5rem;
   }
 }

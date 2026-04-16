@@ -21,6 +21,7 @@ dist/
 .vscode/
 
 # Large media assets (host on CDN, not in repo)
-public/images/
+# We ignore the subfolders containing hundreds of photos, but allow UI assets in the root
+public/images/*/
 
 .vercel
