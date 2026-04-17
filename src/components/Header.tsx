@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 import MagneticButton from "@/components/MagneticButton";
 import { Menu, X } from "lucide-react";
+import { useLeadModal } from "@/context/LeadContext";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { openLeadModal } = useLeadModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +27,8 @@ export default function Header() {
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  if (pathname.startsWith("/admin")) return null;
 
   const isSubpage = pathname !== "/";
   const showGlass = scrolled || isSubpage;
@@ -53,7 +57,7 @@ export default function Header() {
             </MagneticButton>
           ))}
           <MagneticButton>
-            <Link href="/contacto" className={styles.contactBtn}>Contacto</Link>
+            <button onClick={() => openLeadModal()} className={styles.contactBtn} style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}>Contacto</button>
           </MagneticButton>
         </nav>
 
@@ -80,13 +84,13 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <Link 
-            href="/contacto" 
+          <button 
+            onClick={() => { setMenuOpen(false); openLeadModal(); }} 
             className={styles.mobileContactBtn}
-            onClick={() => setMenuOpen(false)}
+            style={{ border: "none", width: "100%", textAlign: "left", fontFamily: "inherit", cursor: "pointer" }}
           >
             Contacto
-          </Link>
+          </button>
         </nav>
       </div>
     </header>

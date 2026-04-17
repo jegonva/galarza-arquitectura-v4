@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 import Testimonials from "@/components/Testimonials";
 import MagneticButton from "@/components/MagneticButton";
 import TiltCard from "@/components/TiltCard";
+import { useLeadModal } from "@/context/LeadContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -77,6 +78,8 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
+  const { openLeadModal } = useLeadModal();
+
   return (
     <main className={styles.main}>
       {/* WATERMARK LOGO - Subtle background branding */}
@@ -103,9 +106,9 @@ export default function Home() {
             no lo suelta nunca.
           </p>
           <MagneticButton>
-            <a href="https://wa.me/529991725555" target="_blank" rel="noopener noreferrer" className={styles.goldenBtn} style={{ textDecoration: "none", display: "inline-block" }}>
+            <button onClick={() => openLeadModal()} className={styles.goldenBtn} style={{ border: "none", cursor: "pointer", display: "inline-block" }}>
               Agendar asesoría gratis
-            </a>
+            </button>
           </MagneticButton>
         </div>
       </section>

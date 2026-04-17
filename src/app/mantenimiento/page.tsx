@@ -7,6 +7,7 @@ import Link from "next/link";
 import { MoveLeft, MapPin, Check, X } from "lucide-react";
 import MaintenanceDashboard from "@/components/MaintenanceDashboard";
 import ProjectFolder from "@/components/ProjectFolder";
+import { useLeadModal } from "@/context/LeadContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -94,6 +95,7 @@ const PLANES_DATA = [
 export default function MantenimientoPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const tableRef = useRef<HTMLDivElement>(null);
+  const { openLeadModal } = useLeadModal();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -217,13 +219,16 @@ export default function MantenimientoPage() {
                      ))}
                    </div>
 
-                   <Link href={`https://wa.me/529991725555?text=Deseo%20cotizar%20el%20Plan%20${plan.name}`} target="_blank" style={{ 
-                      marginTop: "3rem", padding: "1.2rem", background: "var(--clr-accent)", color: "white", textAlign: "center",
-                      borderRadius: "12px", textDecoration: "none", fontWeight: 700, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px",
-                      transition: "transform 0.3s ease"
-                   }}>
+                   <button 
+                      onClick={() => openLeadModal(`Deseo cotizar el Plan ${plan.name} de Mantenimiento`)}
+                      style={{ 
+                        marginTop: "3rem", padding: "1.2rem", background: "var(--clr-accent)", color: "white", textAlign: "center",
+                        borderRadius: "12px", border: "none", cursor: "pointer", fontWeight: 700, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px",
+                        transition: "transform 0.3s ease", display: "block", width: "100%"
+                      }}
+                    >
                       Contratar ahora
-                   </Link>
+                   </button>
                </div>
              ))}
           </div>

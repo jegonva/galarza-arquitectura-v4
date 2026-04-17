@@ -54,6 +54,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import MeshGradient from "@/components/MeshGradient";
+import { LeadProvider } from "@/context/LeadContext";
 
 export default function RootLayout({
   children,
@@ -63,11 +64,13 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
-        <MeshGradient />
-        <CustomCursor />
-        <Header />
-        <SmoothScroll>{children}</SmoothScroll>
-        <Footer />
+        <LeadProvider>
+          <MeshGradient />
+          <CustomCursor />
+          <Header />
+          <SmoothScroll>{children}</SmoothScroll>
+          <Footer />
+        </LeadProvider>
       </body>
     </html>
   );
