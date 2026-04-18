@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import { animate, stagger } from "animejs";
 import styles from "../page.module.css";
 import MagneticButton from "@/components/MagneticButton";
 
 /**
- * BIENVENIDO AL LABORATORIO DE ANIME.JS
+ * BIENVENIDO AL LABORATORIO DE ANIME.JS V4
  * 
- * Este archivo es una copia segura para experimentar.
- * He reemplazado GSAP por Anime.js para que veas la diferencia.
+ * He ajustado la sintaxis para que sea 100% compatible con la v4.
+ * Ahora usamos: animate(objetivo, { propiedades })
  */
 
 export default function Playground() {
@@ -21,87 +21,92 @@ export default function Playground() {
   const subRef = useRef<HTMLParagraphElement>(null);
   const [lastAction, setLastAction] = useState("Esperando orden...");
 
-  // 1. Animación de entrada (equivalente a la que viste antes)
   useEffect(() => {
-    // Animación de los títulos (Staggering)
-    anime({
-      targets: [title1Ref.current, title2Ref.current, title3Ref.current],
-      translateY: [100, 0],
-      opacity: [0, 1],
-      delay: anime.stagger(200), // Aparecen uno tras otro
-      duration: 1200,
-      easing: 'easeOutExpo'
-    });
+    // 1. Animación de entrada inicial
+    const targets = [title1Ref.current, title2Ref.current, title3Ref.current].filter(Boolean);
+    
+    if (targets.length > 0) {
+      animate(targets, {
+        y: [100, 0],
+        opacity: [0, 1],
+        delay: stagger(200),
+        duration: 1200,
+        ease: 'easeOutExpo'
+      });
+    }
 
-    // Animación del subtítulo
-    anime({
-      targets: subRef.current,
-      translateY: [30, 0],
-      opacity: [0, 1],
-      delay: 1000,
-      duration: 1000,
-      easing: 'easeOutQuad'
-    });
+    if (subRef.current) {
+      animate(subRef.current, {
+        y: [30, 0],
+        opacity: [0, 1],
+        delay: 1000,
+        duration: 1000,
+        ease: 'easeOutQuad'
+      });
+    }
 
-    // Animación del Watermark (el logo de fondo)
-    anime({
-      targets: watermarkRef.current,
-      opacity: [0, 0.1],
-      scale: [0.8, 1],
-      duration: 2000,
-      easing: 'easeOutSine'
-    });
+    if (watermarkRef.current) {
+      animate(watermarkRef.current, {
+        opacity: [0, 0.1],
+        scale: [0.8, 1],
+        duration: 2000,
+        ease: 'easeOutSine'
+      });
+    }
   }, []);
 
-  // 2. Funciones para los botones del "Panel de Control"
+  // 2. Funciones para los botones
   const girarLogo = () => {
+    if (!watermarkRef.current) return;
     setLastAction("Girando logo 360 grados...");
-    anime({
-      targets: watermarkRef.current,
+    animate(watermarkRef.current, {
       rotate: '+=360',
       duration: 2000,
-      easing: 'easeInOutElastic(1, .5)'
+      ease: 'easeInOutElastic(1, .5)'
     });
   };
 
   const efectoRebote = () => {
+    const targets = [title1Ref.current, title2Ref.current, title3Ref.current].filter(Boolean);
+    if (targets.length === 0) return;
     setLastAction("Efecto de rebote en títulos...");
-    anime({
-      targets: [title1Ref.current, title2Ref.current, title3Ref.current],
+    animate(targets, {
       scale: [1, 1.2, 1],
-      delay: anime.stagger(100),
+      delay: stagger(100),
       duration: 1000,
-      easing: 'easeOutElastic(1, .8)'
+      ease: 'easeOutElastic(1, .8)'
     });
   };
 
   const ocultarTodo = () => {
+    const targets = [title1Ref.current, title2Ref.current, title3Ref.current, subRef.current].filter(Boolean);
+    if (targets.length === 0) return;
     setLastAction("Ocultando elementos...");
-    anime({
-      targets: [title1Ref.current, title2Ref.current, title3Ref.current, subRef.current],
+    animate(targets, {
       opacity: 0,
-      translateY: 50,
+      y: 50,
       duration: 500,
-      easing: 'easeInQuad'
+      ease: 'easeInQuad'
     });
   };
 
   const mostrarTodo = () => {
+    const targets = [title1Ref.current, title2Ref.current, title3Ref.current, subRef.current].filter(Boolean);
+    if (targets.length === 0) return;
     setLastAction("Revelando elementos...");
-    anime({
-      targets: [title1Ref.current, title2Ref.current, title3Ref.current, subRef.current],
+    animate(targets, {
       opacity: 1,
-      translateY: 0,
-      delay: anime.stagger(150),
+      y: 0,
+      delay: stagger(150),
       duration: 1000,
-      easing: 'easeOutExpo'
+      ease: 'easeOutExpo'
     });
   };
 
   return (
     <main className={styles.main} style={{ overflow: 'hidden', height: '100vh', position: 'relative' }}>
       
-      {/* PANEL DE CONTROL (Solo para este experimento) */}
+      {/* PANEL DE CONTROL */}
       <div style={{
         position: 'fixed',
         top: '20px',
@@ -115,7 +120,7 @@ export default function Playground() {
         boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
         width: '280px'
       }}>
-        <h3 style={{ color: '#c5a47e', marginBottom: '10px' }}>Laboratorio Anime.js</h3>
+        <h3 style={{ color: '#c5a47e', marginBottom: '10px' }}>Laboratorio Anime.js V4</h3>
         <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>Estado: {lastAction}</p>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -126,11 +131,10 @@ export default function Playground() {
         </div>
         
         <p style={{ marginTop: '20px', fontSize: '0.7rem', color: '#c5a47e' }}>
-          * Esto es una copia segura en la rama <b>experimento-animejs</b>.
+          * Sintaxis corregida: <br/> `animate(target, &#123; props &#125;)`
         </p>
       </div>
 
-      {/* CONTENIDO DE LA PÁGINA (Igual que el Home) */}
       <div className={styles.logoWatermark} ref={watermarkRef} style={{ pointerEvents: 'none' }}>
         <img 
           src="/images/Logo Galarza PNG negro.png" 
@@ -147,8 +151,8 @@ export default function Playground() {
             <span className={styles.mask}><span ref={title3Ref} className="accent-text">24/7.</span></span>
           </h1>
           <p className={`${styles.heroSubhead} body-font`} ref={subRef}>
-            Este es tu patio de juegos técnico. Aquí puedes ver cómo Anime.js mueve
-            las piezas de tu tablero de forma fluida y elegante.
+            ¡Logrado! Esta es la versión 4 funcionando. Prueba los botones de arriba
+            para ver cómo fluye ahora el diseño.
           </p>
           <div style={{ marginTop: '2rem' }}>
             <MagneticButton>
